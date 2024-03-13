@@ -49,6 +49,9 @@ Content root path: C:\Users\pk\Documents\projects\ArtBooking
 Now you can examine the app http://localhost:5118/swagger/index.html using listed host adress (in your case port might be different)
 To stop the app use Ctrl+C keys in terminal window.
 
+NOTE: When project is expected to run https protocol use below instructions to configure local certificate:
+https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-dev-certs
+
 ## STEP 3: Debugging the project
 
 In VSCode click debug icon (arrow with bug) located at the left sidebar.
