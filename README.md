@@ -69,3 +69,8 @@ You can set breakpoints in code to capture control of running the code.
 **DOCS:** https://code.visualstudio.com/docs/csharp/debugger-settings#
 
 **NOTE.1:** When using `launch.json` you can specify url where app is running by setting `ASPNETCORE_URLS` attribute of `env` in your configuration (.NET Core Launch (web) - by default).
+
+## Calling ArtBook WebApi from html page
+
+Below gist contains simple example of calling /WhetherForecast controller get method:
+https://gist.github.com/true-vue/741bf056637e252dd8051e13805a7991

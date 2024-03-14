@@ -1,3 +1,6 @@
+using ArtBooking.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,9 +9,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(o => o.AddDefaultPolicy(c => c.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// set lowercase urls
+builder.Services.AddRouting(o => o.LowercaseUrls = true);
+// // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// register all appliaction services and repositories for dependency injection container.
+builder.Services.AddArtBookingAppLayers();
 
 var app = builder.Build();
 
