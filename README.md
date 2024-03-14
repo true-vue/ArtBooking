@@ -38,7 +38,7 @@ You should seen info like below:
 
 Trwa kompilowanie...
 info: Microsoft.Hosting.Lifetime[14]
-Now listening on: http://localhost:5118
+Now listening on: http://localhost:5000
 info: Microsoft.Hosting.Lifetime[0]
 Application started. Press Ctrl+C to shut down.
 info: Microsoft.Hosting.Lifetime[0]
@@ -46,7 +46,7 @@ Hosting environment: Development
 info: Microsoft.Hosting.Lifetime[0]
 Content root path: C:\Users\pk\Documents\projects\ArtBooking
 
-Now you can examine the app http://localhost:5118/swagger/index.html using listed host adress (in your case port might be different)
+Now you can examine the app http://localhost:5000/swagger/index.html using listed host adress (in your case port might be different)
 To stop the app use Ctrl+C keys in terminal window.
 
 **NOTE.1:** When project is expected to run https protocol use below instructions to configure local certificate:
@@ -66,4 +66,6 @@ Click green arrow to start debugging.
 You should see commands running in Terminal window and new browser window will be opened with the app.
 You can set breakpoints in code to capture control of running the code.
 
-**NOTE.1:** When using `launch.json` you can specify url where app is running by setting `ASPNETCORE_URLS` attribute of `env` in your configuration (.NET Core Launch (web) - by default):
+**DOCS:** https://code.visualstudio.com/docs/csharp/debugger-settings#
+
+**NOTE.1:** When using `launch.json` you can specify url where app is running by setting `ASPNETCORE_URLS` attribute of `env` in your configuration (.NET Core Launch (web) - by default).
