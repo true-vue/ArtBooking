@@ -1,6 +1,6 @@
 # ArtBooking
 
-.net ticket booking web application demo
+.net ticket booking web application demo.
 
 ## STEP 0: Visual Studio Code setup
 
@@ -49,16 +49,21 @@ Content root path: C:\Users\pk\Documents\projects\ArtBooking
 Now you can examine the app http://localhost:5118/swagger/index.html using listed host adress (in your case port might be different)
 To stop the app use Ctrl+C keys in terminal window.
 
-NOTE: When project is expected to run https protocol use below instructions to configure local certificate:
+**NOTE.1:** When project is expected to run https protocol use below instructions to configure local certificate:
 https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-dev-certs
+
+**NOTE.2:** You can specify the url where app is running:
+https://andrewlock.net/5-ways-to-set-the-urls-for-an-aspnetcore-app/
 
 ## STEP 3: Debugging the project
 
 In VSCode click debug icon (arrow with bug) located at the left sidebar.
 Initially no configuration for debugging will be present and additional messages will be visible inside the pane.
-Click: "create a launch.json file" link. That will prompt dropdown menu in top center. Pick ".Net 5 and .net core" from dropdown list.
-That will create lauch.json and tasks.json files in .vscode folder.
+Click: "`create a launch.json file`" link. That will prompt dropdown menu in top center. Pick "`.Net 5 and .net core`" from dropdown list.
+That will create `launch.json` and `tasks.json` files in .vscode folder.
 Now at the top of debug pane ".NET Code Lauch" with green arrow can be seen.
 Click green arrow to start debugging.
 You should see commands running in Terminal window and new browser window will be opened with the app.
 You can set breakpoints in code to capture control of running the code.
+
+**NOTE.1:** When using `launch.json` you can specify url where app is running by setting `ASPNETCORE_URLS` attribute of `env` in your configuration (.NET Core Launch (web) - by default):
