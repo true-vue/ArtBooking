@@ -55,13 +55,13 @@ public class OrganizationController : ControllerBase
         return Ok(savedOrganization);
     }
 
-    [HttpDelete("/delete")]
+    [HttpDelete("delete")]
     public ActionResult Delete(int id)
     {
         return Ok();
     }
 
-    [HttpPost("/location/add")]
+    [HttpPost("location/add")]
     public async Task<ActionResult<Location>> AddNewLocationAsync(Location newLocation)
     {
         var result = await _organizations.AddNewLocationAsync(newLocation);
