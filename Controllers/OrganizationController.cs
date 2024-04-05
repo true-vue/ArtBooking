@@ -2,43 +2,19 @@ using Microsoft.AspNetCore.Mvc;
 using ArtBooking.Model;
 using ArtBooking.Storage;
 using ArtBooking.Application;
+using Microsoft.AspNetCore.SignalR.Protocol;
 namespace ArtBooking.Controllers;
 
 [ApiController]
 [Route("/api/[controller]")]
 public class OrganizationController : ControllerBase
 {
-    private readonly IOrganizationSerivce _organizations;
+    private readonly IOrganizationService _organizations;
 
-    public OrganizationController(IOrganizationSerivce organizations)
+    public OrganizationController(IOrganizationService organizations)
     {
         _organizations = organizations;
     }
-
-    // private List<Organization> organizationMockup = new List<Organization>() {
-    //     new Organization() {
-    //         OrganizationId = 1,
-    //         OrganizationName = "Teatr Bagatela",
-    //         // Karmelicka 6, 31-128 Kraków
-    //         Address = new Address() {
-    //             Street = "Karmelicka",
-    //             AddressNumber = "6",
-    //             Town = "Kraków",
-    //             PostalCode = "31-128"
-    //         }
-    //     },
-    //     new Organization() {
-    //         OrganizationId = 2,
-    //         OrganizationName = "Kino Kijów",
-    //         // Aleja Zygmunta Krasińskiego 34, 30-101 Kraków
-    //         Address = new Address() {
-    //             Street = "Aleja Zygmunta Krasińskiego",
-    //             AddressNumber = "34",
-    //             Town = "Kraków",
-    //             PostalCode = "30-101"
-    //         }
-    //     }
-    // };
 
     /// <summary>
     /// Gets list of all organizations
@@ -83,5 +59,18 @@ public class OrganizationController : ControllerBase
     public ActionResult Delete(int id)
     {
         return Ok();
+    }
+
+    [HttpPost("/location/add")]
+    public async Task<ActionResult<Location>> AddNewLocationAsync(Location newLocation)
+    {
+        var result = await _organizations.AddNewLocationAsync(newLocation);
+
+        if (result.Success)
+        {
+            return result.Data as Location;
+        }
+
+        return StatusCode((int)result.HttpStatusCode, result.HttpData(true));
     }
 }

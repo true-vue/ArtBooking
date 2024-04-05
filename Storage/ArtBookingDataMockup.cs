@@ -5,6 +5,19 @@ using ArtBooking.Model;
 
 public class ArtBookingDataMockup
 {
+    public ArtBookingDataMockup()
+    {
+        var firstOrg = organizations[0];
+        this.locations.Add(new Location()
+        {
+            OrganizationId = firstOrg.OrganizationId,
+            LocationId = 0,
+            LocationName = "Duża scena",
+            Description = "Duża scena mnieszcząca się w siedzibie głównej teatru.",
+            Address = firstOrg.Address
+        });
+    }
+
     private MockupList<Organization> organizations = new MockupList<Organization>("OrganizationId") {
         new Organization() {
             OrganizationName = "Teatr Bagatela",
@@ -27,6 +40,8 @@ public class ArtBookingDataMockup
             }
         }
     };
+
+    private MockupList<Location> locations = new MockupList<Location>("LocationId");
 
     // private List<Location> locations = new List<Location>() {
     //     new Location() {
@@ -68,7 +83,7 @@ public class ArtBookingDataMockup
 
     public MockupList<Organization> Organizations { get { return organizations; } }
     // public List<Event> Events { get { return events; } }
-    // public List<Location> Locations { get { return locations; } }
+    public MockupList<Location> Locations { get { return locations; } }
 }
 
 public class MockupList<T> : List<T> where T : class

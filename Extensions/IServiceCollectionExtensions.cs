@@ -12,10 +12,14 @@ public static class DependencyInjectionExtension
         services.AddSingleton(new ArtBookingDataMockup());
 
         // Registering OrganizationService from bussiness layer.
-        services.AddScoped<IOrganizationSerivce, OrganizationService>();
+        services.AddScoped<IOrganizationService, OrganizationService>();
 
         // Registering OrganizationService from bussiness layer.
         services.AddScoped<IOrganizationRepository, OrganizationRepositoryMockup>();
+
+        // Registering LocationService from bussiness layer.
+        services.AddScoped<ILocationRepository, LocationRepositoryMockup>();
+
 
         return services;
     }
