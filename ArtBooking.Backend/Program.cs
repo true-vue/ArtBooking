@@ -1,5 +1,5 @@
 using ArtBooking.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Mvc;
+using ArtBooking.Storage.InMemory;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +17,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Add storage mockup
-builder.Services.AddArtBookingStorageMockup();
+// builder.Services.AddArtBookingStorageMockup();
+
+// Add in-memory storage
+builder.Services.AddArtBookingStorageInMemory();
 
 // Add aplication core bussines
 builder.Services.AddArtBookingCore();

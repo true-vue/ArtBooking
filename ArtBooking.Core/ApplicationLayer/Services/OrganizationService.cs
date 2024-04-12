@@ -25,11 +25,23 @@ public class OrganizationService : IOrganizationService
 
     public async Task<Organization> SaveAsync(Organization organization)
     {
-        if (organization.OrganizationId == 0)
+        if (await IsUniqueOrganization(organization))
         {
-            return await _organizations.AddAsync(organization);
+            if (organization.OrganizationId == 0)
+            {
+                await _organizations.AddAsync(organization);
+            }
+            else
+            {
+                await _organizations.UpdateAsync(organization);
+            }
         }
-        return await _organizations.UpdateAsync(organization);
+        else
+        {
+            throw new InvalidOperationException($"Organization with name '{organization.OrganizationName}' already exists");
+        }
+
+        return organization;
     }
 
     public async Task DeleteAsync(int id)
@@ -45,7 +57,7 @@ public class OrganizationService : IOrganizationService
         if (targetOrganization == null) return OperationResult<dynamic>.Fail(OperationResultErrorCodes.LocationOrganizationNotFound, item);
 
         // Duplication check - race condition might occur so it would be good idea to put lock or use transaction in inferastructure level.
-        if (await IsUniqueLocation(item)) return OperationResult<dynamic>.Fail(OperationResultErrorCodes.DuplicationOccured, item);
+        if (!await IsUniqueLocation(item)) return OperationResult<dynamic>.Fail(OperationResultErrorCodes.DuplicationOccured, item);
 
         try
         {
@@ -64,6 +76,13 @@ public class OrganizationService : IOrganizationService
     private async Task<bool> IsUniqueLocation(Location item)
     {
         var locations = await _locations.GetOrganizationLocations(item.OrganizationId);
-        return locations.Any(l => l.LocationName.Trim().ToLower() == item.LocationName.Trim().ToLower());
+        return !locations.Any(l => l.LocationName.Trim().ToLower() == item.LocationName.Trim().ToLower());
+    }
+
+    private async Task<bool> IsUniqueOrganization(Organization item)
+    {
+        var organizations = await this.GetMultipleAsync();
+        var isUnique = !organizations.Any(o => o.OrganizationName.Equals(item.OrganizationName, StringComparison.InvariantCultureIgnoreCase) && o.OrganizationId != item.OrganizationId);
+        return isUnique;
     }
 }

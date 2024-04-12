@@ -1,9 +1,11 @@
-namespace ArtBooking.Storage;
+namespace ArtBooking.Storage.Mockup;
 
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using ArtBooking.Model;
 
-public class ArtBookingDataMockup
+public class ArtBookingDataMockup : IArtBookingStorageContext
 {
     public ArtBookingDataMockup()
     {
@@ -46,4 +48,21 @@ public class ArtBookingDataMockup
     public MockupList<Organization> Organizations { get { return organizations; } }
     // public List<Event> Events { get { return events; } }
     public MockupList<Location> Locations { get { return locations; } }
+
+    public int SaveChanges() { return 1; }
+
+    public int SaveChanges(bool acceptAllChangesOnSuccess)
+    {
+        return 1;
+    }
+
+    public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        return new Task<int>(() => 1);
+    }
+
+    public Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+    {
+        return new Task<int>(() => 1);
+    }
 }

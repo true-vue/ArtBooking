@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ArtBooking.Model;
-using ArtBooking.Storage;
 using ArtBooking.Application;
-using Microsoft.AspNetCore.SignalR.Protocol;
 namespace ArtBooking.Controllers;
 
 [ApiController]
@@ -10,10 +8,12 @@ namespace ArtBooking.Controllers;
 public class OrganizationController : ControllerBase
 {
     private readonly IOrganizationService _organizations;
+    private readonly IArtBookingStorageContext _storage;
 
-    public OrganizationController(IOrganizationService organizations)
+    public OrganizationController(IOrganizationService organizations, IArtBookingStorageContext storage)
     {
         _organizations = organizations;
+        _storage = storage;
     }
 
     /// <summary>
@@ -48,6 +48,8 @@ public class OrganizationController : ControllerBase
         var isCreation = editedOrganization.OrganizationId == 0;
         var savedOrganization = await _organizations.SaveAsync(editedOrganization);
 
+        _storage.SaveChanges();
+
         if (isCreation)
         {
             return Created($"/api/organization/get/{savedOrganization.OrganizationId}", savedOrganization);
@@ -56,8 +58,10 @@ public class OrganizationController : ControllerBase
     }
 
     [HttpDelete("delete")]
-    public ActionResult Delete(int id)
+    public async Task<ActionResult> Delete(int id)
     {
+        await _organizations.DeleteAsync(id);
+        await _storage.SaveChangesAsync();
         return Ok();
     }
 
@@ -65,6 +69,7 @@ public class OrganizationController : ControllerBase
     public async Task<ActionResult<Location>> AddNewLocationAsync(Location newLocation)
     {
         var result = await _organizations.AddNewLocationAsync(newLocation);
+        await _storage.SaveChangesAsync();
 
         if (result.Success)
         {

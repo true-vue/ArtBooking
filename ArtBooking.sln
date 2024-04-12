@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtBooking.Backend", "ArtBo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtBooking.Storage.Mockup", "ArtBooking.Storage.Mockup\ArtBooking.Storage.Mockup.csproj", "{26559A81-940E-4DB0-9FAB-978B9127A2AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtBooking.Storage.InMemory", "ArtBooking.Storage.InMemory\ArtBooking.Storage.InMemory.csproj", "{7C7CC2E8-C793-4167-87D7-A1C65B9F3B7E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{26559A81-940E-4DB0-9FAB-978B9127A2AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26559A81-940E-4DB0-9FAB-978B9127A2AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26559A81-940E-4DB0-9FAB-978B9127A2AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C7CC2E8-C793-4167-87D7-A1C65B9F3B7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C7CC2E8-C793-4167-87D7-A1C65B9F3B7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C7CC2E8-C793-4167-87D7-A1C65B9F3B7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C7CC2E8-C793-4167-87D7-A1C65B9F3B7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

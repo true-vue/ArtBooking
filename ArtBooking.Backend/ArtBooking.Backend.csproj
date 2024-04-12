@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ArtBooking.Core\ArtBooking.Core.csproj" />
     <ProjectReference Include="..\ArtBooking.Storage.Mockup\ArtBooking.Storage.Mockup.csproj" />
+    <ProjectReference Include="..\ArtBooking.Storage.InMemory\ArtBooking.Storage.InMemory.csproj" />
   </ItemGroup>
 
 </Project>

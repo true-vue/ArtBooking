@@ -1,4 +1,4 @@
-namespace ArtBooking.Storage;
+namespace ArtBooking.Storage.Mockup;
 using ArtBooking.Model;
 
 public class OrganizationRepositoryMockup : IOrganizationRepository
