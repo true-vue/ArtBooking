@@ -16,8 +16,11 @@ builder.Services.AddRouting(o => o.LowercaseUrls = true);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// register all appliaction services and repositories for dependency injection container.
-builder.Services.AddArtBookingAppLayers();
+// Add storage mockup
+builder.Services.AddArtBookingStorageMockup();
+
+// Add aplication core bussines
+builder.Services.AddArtBookingCore();
 
 var app = builder.Build();
 

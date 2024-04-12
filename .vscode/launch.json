@@ -6,13 +6,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Core Launch (web)",
+            "name": "DEBUG:Artbooking.Backend",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/net8.0/ArtBooking.dll",
+            "program": "${workspaceFolder}/ArtBooking.Backend/bin/Debug/net8.0/ArtBooking.Backend.dll",
             "args": [],
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/ArtBooking.Backend",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
@@ -24,7 +24,7 @@
                 "ASPNETCORE_URLS": "https://localhost:5000" // Specify your port here
             },
             "sourceFileMap": {
-                "/Views": "${workspaceFolder}/Views"
+                "/Views": "${workspaceFolder}/ArtBooking.Backend/Views"
             }
         },
         {
