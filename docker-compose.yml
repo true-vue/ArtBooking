@@ -1,0 +1,23 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+version: '3.4'
+
+services:
+  artbookingbackend:
+    image: artbookingbackend
+    build:
+      context: .
+      dockerfile: ArtBooking.Backend/Dockerfile
+    ports:
+      - 5001:5001
+  artbooking_db:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    container_name: artbooking_db
+    environment:
+      SA_PASSWORD: "Pass1234#"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlvolume:/var/opt/mssql
+    command: ["bash", "-c", "ulimit -s 8192 && /opt/mssql/bin/sqlservr"]

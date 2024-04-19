@@ -6,7 +6,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "DEBUG:Artbooking.Backend",
+            "name": ".Net DEBUG Artbooking.Backend",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
@@ -21,16 +21,34 @@
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_URLS": "https://localhost:5000" // Specify your port here
+                "ASPNETCORE_URLS": "https://localhost:5000"
             },
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/ArtBooking.Backend/Views"
             }
         },
         {
-            "name": ".NET Core Attach",
+            "name": ".Net Attach Artbooking.Backend",
             "type": "coreclr",
             "request": "attach"
-        }
+        },         
+        {
+            "name": "Docker DEBUG: Artbooking.Backend",
+            "type": "docker",
+            "request": "launch",
+            "preLaunchTask": "docker-run: debug",
+            "netCore": {
+                "appProject": "${workspaceFolder}/ArtBooking.Backend/ArtBooking.Backend.csproj"
+            }
+        },
+        {
+            "name": "Docker Attach (to running container)",
+            "type": "docker",
+            "request": "attach",
+            "platform": "netCore",
+            "sourceFileMap": {
+                "/src": "${workspaceFolder}"
+            }
+        },          
     ]
 }

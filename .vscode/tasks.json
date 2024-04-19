@@ -1,41 +1,113 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "build",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/ArtBooking.Backend/ArtBooking.Backend.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary;ForceNoAlign"
-            ],
-            "problemMatcher": "$msCompile"
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/ArtBooking.Backend/ArtBooking.Backend.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary;ForceNoAlign"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "publish",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "publish",
+        "${workspaceFolder}/ArtBooking.Backend/ArtBooking.Backend.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary;ForceNoAlign"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "watch",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "watch",
+        "run",
+        "--project",
+        "${workspaceFolder}/ArtBooking.Backend/ArtBooking.Backend.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "type": "docker-build",
+      "label": "docker-build: debug",
+      "dependsOn": [
+        "build"
+      ],
+      "dockerBuild": {
+        "tag": "demoartbooking:dev",
+        "target": "base",
+        "dockerfile": "${workspaceFolder}/ArtBooking.Backend/Dockerfile",
+        "context": "${workspaceFolder}",
+        "pull": true
+      },
+      "netCore": {
+        "appProject": "${workspaceFolder}/ArtBooking.Backend/ArtBooking.Backend.csproj"
+      }
+    },
+    {
+      "type": "docker-build",
+      "label": "docker-build: release",
+      "dependsOn": [
+        "build"
+      ],
+      "dockerBuild": {
+        "tag": "demoartbooking:latest",
+        "dockerfile": "${workspaceFolder}/ArtBooking.Backend/Dockerfile",
+        "context": "${workspaceFolder}",
+        "platform": {
+          "os": "linux",
+          "architecture": "amd64"
         },
-        {
-            "label": "publish",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "publish",
-                "${workspaceFolder}/ArtBooking.Backend/ArtBooking.Backend.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary;ForceNoAlign"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "watch",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "watch",
-                "run",
-                "--project",
-                "${workspaceFolder}/ArtBooking.Backend/ArtBooking.Backend.csproj"
-            ],
-            "problemMatcher": "$msCompile"
-        }
-    ]
+        "pull": true
+      },
+      "netCore": {
+        "appProject": "${workspaceFolder}/ArtBooking.Backend/ArtBooking.Backend.csproj"
+      }
+    },
+    {
+      "type": "docker-run",
+      "label": "docker-run: debug",
+      "dependsOn": [
+        "docker-build: debug"
+      ],
+      "dockerRun": {
+        "containerName": "ArtBookingBackendDebug",
+        "image": "demoartbooking:dev",
+        "ports": [
+            {
+                "containerPort": 5001,
+                "hostPort": 5001
+            }
+        ],
+        "env": {
+            "ASPNETCORE_ENVIRONMENT": "Development"
+        }        
+      },
+      "netCore": {
+        "appProject": "${workspaceFolder}/ArtBooking.Backend/ArtBooking.Backend.csproj",
+        "enableDebugging": true
+      }
+    },
+    {
+      "type": "docker-run",
+      "label": "docker-run: release",
+      "dependsOn": [
+        "docker-build: release"
+      ],
+      "dockerRun": {},
+      "netCore": {
+        "appProject": "${workspaceFolder}/ArtBooking.Backend/ArtBooking.Backend.csproj"
+      }
+    }
+  ]
 }
