@@ -78,4 +78,18 @@ public class OrganizationController : ControllerBase
 
         return StatusCode((int)result.HttpStatusCode, result.HttpData(true));
     }
+
+    [HttpDelete("location/delete")]
+    public async Task<ActionResult<Location>> DeleteLocationAsync(int locationId)
+    {
+        var result = await _organizations.DeleteLocationAsync(locationId);
+        await _storage.SaveChangesAsync();
+
+        if (result.Success)
+        {
+            return result.Data as Location;
+        }
+
+        return StatusCode((int)result.HttpStatusCode, result.HttpData(true));
+    }
 }

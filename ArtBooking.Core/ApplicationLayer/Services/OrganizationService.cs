@@ -7,10 +7,13 @@ public class OrganizationService : IOrganizationService
     private readonly IOrganizationRepository _organizations;
     private readonly ILocationRepository _locations;
 
-    public OrganizationService(IOrganizationRepository organizationRepository, ILocationRepository locations)
+    private readonly IArtBookingStorageContext _dbContext;
+
+    public OrganizationService(IOrganizationRepository organizationRepository, ILocationRepository locations, IArtBookingStorageContext dbContext)
     {
         _organizations = organizationRepository;
         _locations = locations;
+        _dbContext = dbContext;
     }
 
     public async Task<IQueryable<Organization>> GetMultipleAsync()
@@ -64,6 +67,22 @@ public class OrganizationService : IOrganizationService
             var newLocation = await _locations.AddAsync(item);
 
             return OperationResult<dynamic>.Ok(newLocation);
+
+        }
+        catch (Exception exp)
+        {
+            return OperationResult<dynamic>.Fail(OperationResultErrorCodes.OperationFailedInInnerLayer, exp);
+        }
+        // throw new InvalidOperationException($"Location with name {item.LocationName} is already present in organization");
+    }
+
+    public async Task<OperationResult<dynamic>> DeleteLocationAsync(int locationId)
+    {
+        try
+        {
+            await _locations.DeleteAsync(locationId);
+
+            return OperationResult<dynamic>.Ok(null);
 
         }
         catch (Exception exp)
