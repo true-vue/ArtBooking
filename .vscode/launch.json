@@ -6,10 +6,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "DEBUG:Artbooking.Backend",
+            "name": "DEBUG:Backend",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
+            "preLaunchTask": "build:Backend",
             "program": "${workspaceFolder}/ArtBooking.Backend/bin/Debug/net8.0/ArtBooking.Backend.dll",
             "args": [],
             "cwd": "${workspaceFolder}/ArtBooking.Backend",
@@ -28,9 +28,40 @@
             }
         },
         {
+            "name": "DEBUG:Backend.Auth",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build:Backend.Auth",
+            "program": "${workspaceFolder}/ArtBooking.Backend.Auth/bin/Debug/net8.0/ArtBooking.Backend.Auth.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/ArtBooking.Backend.Auth",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+                "uriFormat": "%s/swagger/index.html"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "https://localhost:5800" // Specify your port here
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/ArtBooking.Backend.Auth/Views"
+            }
+        },
+        {
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach"
+        },
+    ],
+    "compounds": [
+        {
+            "name": "DEBUG:All-Backends",
+            "configurations": [
+                "DEBUG:Backend",
+                "DEBUG:Backend.Auth"
+            ]
         }
     ]
 }

@@ -1,27 +1,29 @@
-using System.Text;
-using ArtBooking.Extensions.DependencyInjection;
-using ArtBooking.Identity;
+using ArtBooking.Storage;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+var s = builder.Services;
+var c = builder.Configuration;
+
+// Loose CORS policy
+s.AddCors(o => o.AddDefaultPolicy(o => o.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
+
+// Register Auth database context
+s.AddDbContext<AuthDbContext>(o => o.UseSqlServer(c.GetConnectionString("DefaultConnection")));
+
+// Register user authentication service
+s.AddScoped<AuthService>();
 
 // Add services to the container.
-
-// Adding default CORS policy that will all to make a call from browser with any origin (url) with any http method and any http header.
-builder.Services.AddCors(o => o.AddDefaultPolicy(c => c.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
-
-// Add backend controllers support
-builder.Services.AddControllers();
-
-// set lowercase urls
-builder.Services.AddRouting(o => o.LowercaseUrls = true);
-// // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+s.AddEndpointsApiExplorer();
+s.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "ArtBooking.Backend", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "ArtBooking.Auth", Version = "v1" });
 
     // Define the OAuth2.0 scheme that's in use (i.e., Implicit Flow)
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -50,23 +52,8 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// Add storage mockup
-// builder.Services.AddArtBookingStorageMockup();
-
-// Add in-memory storage
-builder.Services.AddArtBookingStorageInMemory();
-
-// Add aplication core bussines
-builder.Services.AddArtBookingCore();
-
-// Ensure http context accessor will be added to DI.
-builder.Services.AddHttpContextAccessor();
-
-// Add identity service (user data extraction)
-builder.Services.AddScoped<IdentityService>();
-
-// Configure JWT Authentication
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+// Add services to the container.
+s.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
@@ -82,6 +69,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+s.AddAuthorization();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -91,14 +80,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
-// Enabling cors with default policy
+// enable CORS policy configured above
 app.UseCors();
 
-// app.UseAuthentication();
+// Configure the HTTP request pipeline.
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapGet("/", () => "Authorization backend please use /login method to authorize");
+
+AuthEndPoints.MapEndpoints(app);
+UserEndPoints.MapEndpoints(app);
 
 app.Run();

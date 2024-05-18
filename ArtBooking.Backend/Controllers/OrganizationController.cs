@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using ArtBooking.Model;
 using ArtBooking.Application;
+using Microsoft.AspNetCore.Authorization;
 namespace ArtBooking.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("/api/[controller]")]
 public class OrganizationController : ControllerBase
 {
