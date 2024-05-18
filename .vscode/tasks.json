@@ -55,6 +55,16 @@
                 "${workspaceFolder}/ArtBooking.Backend/ArtBooking.Backend.csproj"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "test",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "test",
+                "${workspaceFolder}/ArtBooking.Tests/ArtBooking.Tests.csproj"
+            ],
+            "problemMatcher": "$msCompile"
         }
     ]
 }
