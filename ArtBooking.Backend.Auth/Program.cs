@@ -13,7 +13,10 @@ var c = builder.Configuration;
 s.AddCors(o => o.AddDefaultPolicy(o => o.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 
 // Register Auth database context
-s.AddDbContext<AuthDbContext>(o => o.UseSqlServer(c.GetConnectionString("DefaultConnection")));
+s.AddDbContext<AuthDbContext>(o => o.UseInMemoryDatabase("ArtBooking.Auth"));
+
+// Ensure http context accessor will be added to DI.
+builder.Services.AddHttpContextAccessor();
 
 // Ensure http context accessor will be added to DI.
 builder.Services.AddHttpContextAccessor();

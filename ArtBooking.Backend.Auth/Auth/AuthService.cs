@@ -72,6 +72,14 @@ public class AuthService
                 return (UserVerificationResult.Failed, user);
             }
         }
+        else
+        {
+            var passResult = this.VerifyPassword(user.PasswordHash, credentials.Password);
+            if (passResult == PasswordVerificationResult.Failed)
+            {
+                throw new UnauthorizedAccessException("Invalid credentials");
+            }
+        }
 
         return (UserVerificationResult.Success, user);
     }

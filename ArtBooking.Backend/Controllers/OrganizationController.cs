@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using ArtBooking.Model;
 using ArtBooking.Application;
 using Microsoft.AspNetCore.Authorization;
+using ArtBooking.Identity;
 namespace ArtBooking.Controllers;
 
 [ApiController]
@@ -11,11 +12,13 @@ public class OrganizationController : ControllerBase
 {
     private readonly IOrganizationService _organizations;
     private readonly IArtBookingStorageContext _storage;
+    private readonly IdentityService _identity;
 
-    public OrganizationController(IOrganizationService organizations, IArtBookingStorageContext storage)
+    public OrganizationController(IOrganizationService organizations, IArtBookingStorageContext storage, IdentityService identity)
     {
         _organizations = organizations;
         _storage = storage;
+        _identity = identity;
     }
 
     /// <summary>
@@ -34,9 +37,12 @@ public class OrganizationController : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("get/{id}")]
-    public async Task<ActionResult<Organization>> Get(int id)
+    public async Task<ActionResult<Organization>> GetUserOrganization()
     {
-        var organization = await _organizations.GetAsync(id);
+        var orgID = _identity.User?.OrganizationId;
+        if (!orgID.HasValue) return BadRequest();
+
+        var organization = await _organizations.GetAsync(orgID.Value);
 
         if (organization == null) return NotFound();
 
