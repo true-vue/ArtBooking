@@ -28,7 +28,11 @@ public class LocationRepositoryInMemory : ILocationRepository
 
     public async Task<Location> UpdateAsync(Location location)
     {
-        _context.Locations.Update(location);
+        var existingLocation = _context.Locations.Find(location.LocationId);
+        if (existingLocation != null)
+        {
+            _context.Entry(existingLocation).CurrentValues.SetValues(location);
+        }
 
         return await Task.Run(() =>
         {

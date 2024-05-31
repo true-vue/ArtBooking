@@ -32,7 +32,11 @@ public class OrganizationRepositoryInMemory : IOrganizationRepository
 
     public async Task<Organization> UpdateAsync(Organization organization)
     {
-        _context.Organizations.Update(organization);
+        var existingOrganization = _context.Locations.Find(organization.OrganizationId);
+        if (existingOrganization != null)
+        {
+            _context.Entry(existingOrganization).CurrentValues.SetValues(organization);
+        }
 
         return await Task.Run(() =>
         {
