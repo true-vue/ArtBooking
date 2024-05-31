@@ -60,17 +60,18 @@ public static class DependencyInjectionExtension
                     PostalCode = "30-101"
                 }
             };
+            var multikinoAddress = () => new Address()
+            {
+                Street = "Dobrego Pasterza",
+                AddressNumber = "128",
+                Town = "Kraków",
+                PostalCode = "31-416"
+            };
             var multikino = new Organization()
             {
                 OrganizationName = "Multikino Kraków",
                 // Dobrego Pasterza 128, 31-416 Kraków
-                Address = new Address()
-                {
-                    Street = "Dobrego Pasterza",
-                    AddressNumber = "128",
-                    Town = "Kraków",
-                    PostalCode = "31-416"
-                }
+                Address = multikinoAddress()
             };
             await organizationRepository.AddAsync(bagatela);
             await organizationRepository.AddAsync(kijow);
@@ -90,35 +91,35 @@ public static class DependencyInjectionExtension
                 OrganizationId = multikino.OrganizationId,
                 LocationName = "Sala 1",
                 Description = "Liczba miejsc: 473 (w tym 33 fotele VIP).",
-                Address = multikino.Address
+                Address = multikinoAddress()
             });
             await locationRepository.AddAsync(new Location()
             {
                 OrganizationId = multikino.OrganizationId,
                 LocationName = "Sala 2",
                 Description = "Liczba miejsc: 192 (w tym 24 fotele VIP).",
-                Address = multikino.Address
+                Address = multikinoAddress()
             });
             await locationRepository.AddAsync(new Location()
             {
                 OrganizationId = multikino.OrganizationId,
                 LocationName = "Sala 3",
                 Description = "Liczba miejsc: 124 (w tym 12 foteli VIP).",
-                Address = multikino.Address
+                Address = multikinoAddress()
             });
             await locationRepository.AddAsync(new Location()
             {
                 OrganizationId = multikino.OrganizationId,
                 LocationName = "Sala 4",
                 Description = "Liczba miejsc: 185 (w tym 12 foteli VIP).",
-                Address = multikino.Address
+                Address = multikinoAddress()
             });
             await locationRepository.AddAsync(new Location()
             {
                 OrganizationId = multikino.OrganizationId,
                 LocationName = "Sala 5",
                 Description = "Liczba miejsc: 330 (w tym 24 fotele VIP).",
-                Address = multikino.Address
+                Address = multikinoAddress()
             });
 
             dbContext.SaveChanges();
