@@ -84,6 +84,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
+app.Services.UseArtBookingInMemoryMockup();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -103,4 +105,5 @@ app.MapControllers();
 
 app.Run();
 
+// required for exposing for integation testing
 public partial class Program { }

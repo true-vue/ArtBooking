@@ -92,6 +92,19 @@ public class OrganizationService : IOrganizationService
         // throw new InvalidOperationException($"Location with name {item.LocationName} is already present in organization");
     }
 
+    public async Task<OperationResult<dynamic>> GetOrganizationLocationsAsync(int organizationId)
+    {
+        try
+        {
+            var locations = await _locations.GetOrganizationLocations(organizationId);
+            return OperationResult<dynamic>.Ok(locations);
+        }
+        catch (Exception exp)
+        {
+            return OperationResult<dynamic>.Fail(OperationResultErrorCodes.OperationFailedInInnerLayer, exp);
+        }
+    }
+
     private async Task<bool> IsUniqueLocation(Location item)
     {
         var locations = await _locations.GetOrganizationLocations(item.OrganizationId);

@@ -73,6 +73,18 @@ public class OrganizationController : ControllerBase
         return Ok();
     }
 
+    [HttpGet("{organizationId}/locations")]
+    public async Task<ActionResult<IEnumerable<Location>>> GetOrganizationLocationsAsync(int organizationId)
+    {
+        var result = await _organizations.GetOrganizationLocationsAsync(organizationId);
+        if (result.Success)
+        {
+            return Ok(result.Data as IEnumerable<Location>);
+        }
+
+        return StatusCode((int)result.HttpStatusCode, result.HttpData(true));
+    }
+
     [HttpPost("location/add")]
     public async Task<ActionResult<Location>> AddNewLocationAsync(Location newLocation)
     {
@@ -87,10 +99,10 @@ public class OrganizationController : ControllerBase
         return StatusCode((int)result.HttpStatusCode, result.HttpData(true));
     }
 
-    [HttpDelete("location/delete")]
-    public async Task<ActionResult<Location>> DeleteLocationAsync(int locationId)
+    [HttpDelete("location/delete/{id}")]
+    public async Task<ActionResult<Location>> DeleteLocationAsync(int id)
     {
-        var result = await _organizations.DeleteLocationAsync(locationId);
+        var result = await _organizations.DeleteLocationAsync(id);
         await _storage.SaveChangesAsync();
 
         if (result.Success)

@@ -7,4 +7,6 @@ public interface IOrganizationService : IServiceBase<Organization>
     Task<OperationResult<dynamic>> AddNewLocationAsync(Location item);
 
     Task<OperationResult<dynamic>> DeleteLocationAsync(int locationId);
+
+    Task<OperationResult<dynamic>> GetOrganizationLocationsAsync(int organizationId);
 }
